@@ -45,5 +45,7 @@ Thumbs.db
 /.pnp/
 .pnp.js
 
+.excalidraw.svg
+
 # Keep lockfiles and package manifests (commit these): package.json, pnpm-lock.yaml
 
