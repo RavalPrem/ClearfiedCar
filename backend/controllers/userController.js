@@ -108,7 +108,7 @@ const editUserProfile = async (req, res) => {
   try {
     const { name, email, password, phoneNumber, profileImage } = req.body;
 
-    const existUser = await user.findOne({ email });
+    const existUser = await user.findById(req.params.id);
     if (!existUser) {
       return res.status(404).json({
         message: "user not found",
@@ -116,21 +116,27 @@ const editUserProfile = async (req, res) => {
       });
     }
 
-    const updatedData = await user.findByIdAndUpdate(
+    const updatedData = {};
+
+    if(name) updatedData.name = name
+    if(email) updatedData.email = email
+    if(phoneNumber) updatedData.phoneNumber = phoneNumber
+    if(profileImage) updatedData.profileImage = profileImage
+
+    if(password) {
+      updatedData.password = await bcrypt.hash(password,10)
+    }
+
+    const updateUserProfile = await user.findByIdAndUpdate(
       req.params.id,
-      {
-        name,
-        email,
-        password,
-        phoneNumber,
-        profileImage,
-      },
-      { returnDocument: "after" },
-    );
+      {updatedData},
+      {returnDocument : "after"}
+    )
 
     return res.status(200).json({
       message: "user data successfully updated",
       success: true,
+      updateUserData : updatedData
     });
   } catch (error) {
     return res.status(500).json({
@@ -148,12 +154,13 @@ const deleteUserData = async (req, res) => {
     if (!deletedUser) {
       return res.status(404).json({
         message: "User not found",
-        success: false,
+        success: false
       });
     }
     return res.status(200).json({
       message: "data successfully deleted",
       success: true,
+      data : deletedUser
     });
   } catch (error) {
     console.error(error);

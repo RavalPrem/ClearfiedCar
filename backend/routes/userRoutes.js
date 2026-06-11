@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { user } = require("../models/userModel");
-const { getUserData, signUpHandling, editUserProfile, deleteUserData } = require("../controllers/userController");
+const { getUserData, signUpHandling, editUserProfile, deleteUserData, logInHandling } = require("../controllers/userController");
+const { signUpValidation, loginValidation, updateProfileValidation } = require("../middleware/userMiddleware");
 
 
 const route = express.Router();
@@ -10,10 +11,11 @@ const route = express.Router();
 route.get("/:id",getUserData);
 
 //controller for signup 
-route.post("/", signUpHandling)
+route.post("/signup",signUpValidation, signUpHandling)
+route.post("/login", loginValidation ,logInHandling)
 
 //edit user Profile
-route.put("/:id",editUserProfile)
+route.put("/:id",updateProfileValidation,editUserProfile)
 
 //delete user Profile
 route.delete("/:id",deleteUserData)
