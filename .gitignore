@@ -49,3 +49,4 @@ Thumbs.db
 
 # Keep lockfiles and package manifests (commit these): package.json, pnpm-lock.yaml
 
+ok.json

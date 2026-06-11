@@ -1,52 +1,21 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const { user } = require('../models/userModel')
+const express = require("express");
+const mongoose = require("mongoose");
+const { user } = require("../models/userModel");
+const { getUserData, signUpHandling, editUserProfile, deleteUserData } = require("../controllers/userController");
 
-const route = express.Router()
 
-route.get('/',async(req,res) => {
-    try {
-        const users = await user.find({})
+const route = express.Router();
 
-        res.send(users)
+//controller for get data of user
+route.get("/:id",getUserData);
 
-    } catch (error) {
-        res.status(500).send({
-            message : "internal server error",
-            success : false
-        })
-    }
-})
+//controller for signup 
+route.post("/", signUpHandling)
 
-route.post('/',async(req,res) => {
-    try {
-        const {name,email,password,phoneNumber,profileImage} = req.body
+//edit user Profile
+route.put("/:id",editUserProfile)
 
-        if(!name || !email || !password || !phoneNumber ) {
-            return res.status(401).send({
-                message : "all fields are required",
-                success : false
-            })
-        }
-        
-        const userData = await user.create({
-            name,
-            email,
-            password,
-            phoneNumber,
-            profileImage
-        })
+//delete user Profile
+route.delete("/:id",deleteUserData)
 
-        res.status(201).send({
-            message : "user Data successfully got",
-            data : userData
-        })
-    } catch (error) {
-        return res.status(401).send({
-            message : error.message,
-            success : false
-        })
-    }
-})
-
-module.exports = route
+module.exports = route;
