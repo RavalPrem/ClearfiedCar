@@ -8,7 +8,11 @@ const getUserData = async (req, res) => {
   try {
     const userData = await user.findById(req.user.id);
 
-    return res.json(userData);
+    return res.json({
+      name : userData.name,
+      email : userData.email,
+      phoneNumber : userData.phoneNumber
+    });
 
   } catch (error) {
     return res.status(500).send({
