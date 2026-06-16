@@ -11,7 +11,7 @@ mongoConnection()
 app.use(express.json())
 
 const user = require('./routes/userRoutes')
-app.use('/user',user)
+app.use('/api/user',user)
 
 
 const port = process.env.PORT || 3523

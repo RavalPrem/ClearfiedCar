@@ -1,13 +1,15 @@
 const mongoose = require("mongoose");
 const { user } = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const { generateToken } = require("../tokens/authToken");
 
 //to get request and sending all info of the user to the user
 const getUserData = async (req, res) => {
   try {
-    const userData = await user.findById(req.params.id);
+    const userData = await user.findById(req.user.id);
 
     return res.json(userData);
+
   } catch (error) {
     return res.status(500).send({
       message: `internal server error ${error.message}`,
@@ -21,7 +23,12 @@ const signUpHandling = async (req, res) => {
   try {
     const { name, email, password, phoneNumber, profileImage } = req.body;
     
-    const existingUser = await user.findOne({ email });
+    const existingUser = await user.findOne({ 
+      $or:[
+        {email},
+        {phoneNumber}
+      ]
+    });
 
     if (existingUser) {
       return res.status(409).json({
@@ -48,10 +55,20 @@ const signUpHandling = async (req, res) => {
       profileImage,
     });
 
+    const token = generateToken(userData._id)
+
     res.status(201).send({
       message: "user Data successfully got",
-      data: userData,
+
+      token,
+
+      user : {
+        name : userData.name,
+        email : userData.email,
+        phoneNumber : userData.phoneNumber,
+      }
     });
+
   } catch (error) {
     return res.status(500).send({
       message: error.message,
@@ -90,10 +107,18 @@ const logInHandling = async (req, res) => {
       });
     }
 
+    const token = await generateToken(existingUser._id)
+
     return res.status(200).send({
       message: "Log in Successfully",
       success: true,
-      data: existingUser,
+
+      token,
+
+      user: {
+        name : existingUser.name,
+        email : existingUser.email,
+      },
     });
   } catch (error) {
     return res.status(500).send({

@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: String,
+      unique : [true,"Entered phoneNumber already register"],
       required: true,
     },
     profileImage : {
