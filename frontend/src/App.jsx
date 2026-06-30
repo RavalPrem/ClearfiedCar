@@ -1,7 +1,28 @@
 const App = () => {
   return (
-    <div className='h-screen w-screen bg-primary text-secondary font-bold'>
-        Hello
+    <div className='bg-primary text-secondary'>
+      <div className="h-screen w-screen relative">
+        <div className="relative navbar h-20 flex items-center justify-around w-screen border z-2">
+          <nav>
+            <ul className="flex justify-between gap-5 text-white text-[16px] border border-white p-5 rounded-full">
+              <li>Home</li>
+              <li>Market Place</li>
+              <li>Sell Car</li>
+              <li>Contact Us</li>
+              <li>About Us</li>
+            </ul>
+          </nav>
+        </div>
+
+        {/*hero image */}
+        <div className="h-screen w-screen absolute left-0 top-0 z-0 overflow-hidden">
+          <img src="../public/HeroImage/HeroImage.png" alt="" />
+        </div>
+
+        <div className="userProfile">
+          
+        </div>
+      </div>
     </div>
   )
 }
