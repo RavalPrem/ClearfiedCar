@@ -1,3 +1,4 @@
+import Button from './components/Button';
 const App = () => {
   return (
     <div className='bg-primary text-secondary'>
@@ -12,16 +13,18 @@ const App = () => {
               <li>About Us</li>
             </ul>
           </nav>
+
+          <div className="userProfile relative z-4 flex">
+            <Button className="" > Hello world</Button>
+            <Button > </Button>
+          </div>
         </div>
 
         {/*hero image */}
         <div className="h-screen w-screen absolute left-0 top-0 z-0 overflow-hidden">
-          <img src="../public/HeroImage/HeroImage.png" alt="" />
+          <img src="../public/HeroImage/heroImage2.png" alt="" />
         </div>
 
-        <div className="userProfile">
-          
-        </div>
       </div>
     </div>
   )
